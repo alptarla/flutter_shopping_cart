@@ -40,21 +40,40 @@ class _ProductListViewState extends State<ProductListView> {
     return ListView.builder(
       itemCount: products.length,
       itemBuilder: (context, index) {
-        return _buildProductCard(product: products[index]);
+        return Column(
+          children: [
+            _buildProductCard(product: products[index]),
+            const SizedBox(
+              height: 24,
+            )
+          ],
+        );
       },
     );
   }
 
   ListTile _buildProductCard({required ProductModel product}) {
     return ListTile(
-      title: Text(product.title!),
+      tileColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(
+        vertical: 24,
+        horizontal: 12,
+      ),
+      title: Text(
+        product.title!,
+        style: Theme.of(context).textTheme.bodyMedium,
+        maxLines: 1,
+      ),
       leading: Image.network(
         product.image!,
-        width: 50,
-        height: 50,
+        width: 75,
+        height: 75,
         fit: BoxFit.contain,
       ),
-      trailing: Text(product.price!.toString()),
+      trailing: Text(
+        "\$${product.price!.toString()}",
+        style: Theme.of(context).textTheme.labelLarge,
+      ),
     );
   }
 
