@@ -43,6 +43,8 @@ class _ProductListViewState extends State<ProductListView> {
 
     void addProductToCart(ProductModel product) =>
         context.read<CartViewModel>().addProduct(product);
+    bool isContainsCart(ProductModel product) =>
+        context.watch<CartViewModel>().isContains(product);
 
     return ProductList(
         products: products,
@@ -50,9 +52,9 @@ class _ProductListViewState extends State<ProductListView> {
           return ProductCard(
             product: products[index],
             iconButton: IconButton(
-              onPressed: () {
-                addProductToCart(products[index]);
-              },
+              onPressed: isContainsCart(products[index])
+                  ? null
+                  : () => addProductToCart(products[index]),
               icon: const Icon(Icons.shopping_basket),
               color: Theme.of(context).colorScheme.primary,
             ),

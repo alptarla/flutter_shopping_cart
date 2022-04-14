@@ -25,24 +25,31 @@ class _CartListViewState extends State<CartListView> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Your Cart"),
-      ),
-      body: ProductList(
-        products: cartProducts,
-        builder: (index) {
-          return ProductCard(
-            product: cartProducts[index],
-            iconButton: IconButton(
-              onPressed: () {
-                removeFromCart(cartProducts[index]);
-              },
-              icon: const Icon(Icons.close),
-              color: Theme.of(context).colorScheme.error,
-            ),
-          );
-        },
-      ),
-    );
+        appBar: AppBar(
+          title: const Text("Your Cart"),
+        ),
+        body: Consumer(
+          builder: (context, value, child) {
+            return cartProducts.isEmpty
+                ? const Center(
+                    child: Text("Your cart is empty"),
+                  )
+                : ProductList(
+                    products: cartProducts,
+                    builder: (index) {
+                      return ProductCard(
+                        product: cartProducts[index],
+                        iconButton: IconButton(
+                          onPressed: () {
+                            removeFromCart(cartProducts[index]);
+                          },
+                          icon: const Icon(Icons.close),
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      );
+                    },
+                  );
+          },
+        ));
   }
 }

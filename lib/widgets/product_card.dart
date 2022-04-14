@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:shopping_cart/model/product_model.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({Key? key, required this.product, required this.iconButton})
-      : super(key: key);
+  const ProductCard({
+    Key? key,
+    required this.product,
+    required this.iconButton,
+  }) : super(key: key);
 
   final ProductModel product;
   final IconButton iconButton;

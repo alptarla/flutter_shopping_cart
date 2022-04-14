@@ -4,7 +4,6 @@ import 'package:shopping_cart/service/product_service.dart';
 
 class ProductViewModel extends ChangeNotifier {
   List<ProductModel> products = [];
-  ProductModel? product;
   bool isLoading = false;
 
   final ProductService _productService = ProductService();
@@ -24,6 +23,4 @@ class ProductViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  void fetchProductById(int id) {}
 }
