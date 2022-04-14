@@ -4,6 +4,7 @@ import 'package:shopping_cart/model/product_model.dart';
 import 'package:shopping_cart/view/cart_list_view.dart';
 import 'package:shopping_cart/view_model/cart_view_model.dart';
 import 'package:shopping_cart/view_model/product_view_model.dart';
+import 'package:shopping_cart/widgets/product_card.dart';
 
 class ProductListView extends StatefulWidget {
   const ProductListView({Key? key}) : super(key: key);
@@ -48,27 +49,31 @@ class _ProductListViewState extends State<ProductListView> {
               },
               icon: const Icon(Icons.shopping_cart),
             ),
-            Positioned(
-              top: 1,
-              right: 6,
-              child: Consumer(
-                builder: (context, value, child) {
-                  int totalCount = context
-                      .select<CartViewModel, int>((value) => value.totalCount);
-
-                  return Text(
-                    totalCount.toString(),
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                  );
-                },
-              ),
-            )
+            _buildProductCountText()
           ],
         )
       ],
+    );
+  }
+
+  Positioned _buildProductCountText() {
+    return Positioned(
+      top: 1,
+      right: 6,
+      child: Consumer(
+        builder: (context, value, child) {
+          int totalCount =
+              context.select<CartViewModel, int>((value) => value.totalCount);
+
+          return Text(
+            totalCount.toString(),
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+          );
+        },
+      ),
     );
   }
 
@@ -80,58 +85,18 @@ class _ProductListViewState extends State<ProductListView> {
       itemBuilder: (context, index) {
         return Column(
           children: [
-            _buildProductCard(product: products[index]),
+            ProductCard(
+              product: products[index],
+              onAddToCart: () {
+                context.read<CartViewModel>().addProduct(products[index]);
+              },
+            ),
             const SizedBox(
               height: 24,
             )
           ],
         );
       },
-    );
-  }
-
-  Card _buildProductCard({required ProductModel product}) {
-    return Card(
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 24,
-          horizontal: 12,
-        ),
-        title: Text(
-          product.title!,
-          style: Theme.of(context).textTheme.bodyMedium,
-          overflow: TextOverflow.ellipsis,
-        ),
-        leading: Image.network(
-          product.image!,
-          width: 75,
-          height: 75,
-          fit: BoxFit.contain,
-        ),
-        trailing: Column(
-          children: [
-            Flexible(
-              flex: 2,
-              child: IconButton(
-                onPressed: () {
-                  context.read<CartViewModel>().addProduct(product);
-                },
-                icon: const Icon(Icons.shopping_basket),
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Flexible(
-              child: Text(
-                "\$${product.price!.toString()}",
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 
