@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shopping_cart/core/app_theme.dart';
 import 'package:shopping_cart/view/cart_list_view.dart';
 import 'package:shopping_cart/view/product_list_view.dart';
+import 'package:shopping_cart/view_model/cart_view_model.dart';
 import 'package:shopping_cart/view_model/product_view_model.dart';
 
 void main(List<String> args) {
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ProductViewModel())
+        ChangeNotifierProvider(create: (context) => ProductViewModel()),
+        ChangeNotifierProvider(create: (context) => CartViewModel())
       ],
       child: MaterialApp(
         title: "Shopping Cart",
