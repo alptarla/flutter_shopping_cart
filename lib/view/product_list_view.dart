@@ -5,6 +5,7 @@ import 'package:shopping_cart/view/cart_list_view.dart';
 import 'package:shopping_cart/view_model/cart_view_model.dart';
 import 'package:shopping_cart/view_model/product_view_model.dart';
 import 'package:shopping_cart/widgets/product_card.dart';
+import 'package:shopping_cart/widgets/product_list.dart';
 
 class ProductListView extends StatefulWidget {
   const ProductListView({Key? key}) : super(key: key);
@@ -35,6 +36,28 @@ class _ProductListViewState extends State<ProductListView> {
         },
       ),
     );
+  }
+
+  ProductList _buildProductList() {
+    List<ProductModel> products = context.watch<ProductViewModel>().products;
+
+    void addProductToCart(ProductModel product) =>
+        context.read<CartViewModel>().addProduct(product);
+
+    return ProductList(
+        products: products,
+        builder: (index) {
+          return ProductCard(
+            product: products[index],
+            iconButton: IconButton(
+              onPressed: () {
+                addProductToCart(products[index]);
+              },
+              icon: const Icon(Icons.shopping_basket),
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          );
+        });
   }
 
   AppBar _buildAppBar() {
@@ -74,29 +97,6 @@ class _ProductListViewState extends State<ProductListView> {
           );
         },
       ),
-    );
-  }
-
-  ListView _buildProductList() {
-    List<ProductModel> products = context.read<ProductViewModel>().products;
-
-    return ListView.builder(
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        return Column(
-          children: [
-            ProductCard(
-              product: products[index],
-              onAddToCart: () {
-                context.read<CartViewModel>().addProduct(products[index]);
-              },
-            ),
-            const SizedBox(
-              height: 24,
-            )
-          ],
-        );
-      },
     );
   }
 

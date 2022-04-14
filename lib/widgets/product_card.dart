@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:shopping_cart/model/product_model.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard(
-      {Key? key, required this.product, required this.onAddToCart})
+  const ProductCard({Key? key, required this.product, required this.iconButton})
       : super(key: key);
 
   final ProductModel product;
-  final VoidCallback onAddToCart;
+  final IconButton iconButton;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +31,7 @@ class ProductCard extends StatelessWidget {
           children: [
             Flexible(
               flex: 2,
-              child: IconButton(
-                onPressed: onAddToCart,
-                icon: const Icon(Icons.shopping_basket),
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              child: iconButton,
             ),
             const SizedBox(
               height: 10,
